@@ -4,9 +4,10 @@ import StatusCode from "../enums/status-codes";
 import User from "../models/user.model";
 import BadRequestError from "../utils/err/bad-request-error";
 import bcryptjs from "bcryptjs";
-import jwt from 'jsonwebtoken';
-import { generateAccessToken } from "./utils/access-token";
-import { generateRefreshToken } from "./utils/refresh-token";
+import { generateAccessToken, generateRefreshToken, verifyAccessToken, verifyRefreshToken } from "./helpers/jwt-helpers";
+import { authMiddleware } from "../middlewares/auth-middleware";
+import { getCookie } from "../utils/cookies";
+import UserService from "../services/user-service";
 
 const UserController = async (router: IRouter<Router>) => {
   router.post('/register', async (req: Request, res: Response) => {
@@ -15,16 +16,8 @@ const UserController = async (router: IRouter<Router>) => {
       throw new BadRequestError("Name, email and password are required");
     }
 
-    const user = await User.findOne({
-      email
-    });
+    await UserService.register(name, email, password);
 
-    if (user) {
-      throw new BadRequestError("User already exists");
-    }
-
-    const newUser = new User({ name, email, password });
-    await newUser.save();
     res.status(StatusCode.CREATED).json(
       new ApiResponseBuilder()
         .statusCode(StatusCode.CREATED)
@@ -39,28 +32,55 @@ const UserController = async (router: IRouter<Router>) => {
       throw new BadRequestError("Invalid email or password");
     }
 
-    const user = await User.findOne({
-      email
+    const { accessToken, refreshToken } = await UserService.login(email, password);
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      path: "/api/v1/users/refresh-token",
     });
-    
-    if (!user) {
-      throw new BadRequestError("Invalid email or password");
-    }
-
-    const isMatch = await bcryptjs.compare(password, user.password as string);
-
-    if (!isMatch) {
-      throw new BadRequestError("Invalid email or password");
-    }
-
-    const accessToken = generateAccessToken(user);
-    const refreshToken = generateRefreshToken(user);
-
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+    });
     res.status(StatusCode.OK).json(
       new ApiResponseBuilder()
         .statusCode(StatusCode.OK)
         .message("User logged in successfully")
-        .data({ accessToken })
+        .build()
+    );
+  });
+
+  router.post("/refresh-token", async (req, res) => {
+    const _refreshToken = getCookie(req, "refreshToken");
+    if (!_refreshToken) {
+      throw new BadRequestError("Invalid token");
+    }
+
+    const { refreshToken, accessToken } = await UserService.refreshToken(_refreshToken);
+    
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      path: "/api/v1/users/refresh-token",
+    });
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+    });
+    res.status(StatusCode.OK).json(
+      new ApiResponseBuilder()
+        .statusCode(StatusCode.OK)
+        .message("Token refreshed successfully")
+        .build()
+    );
+  });
+
+  router.get("/", authMiddleware, async (req, res) => {
+    const userId = req.headers.userId;
+    const user = await UserService.getUserById(userId as string);
+
+    res.status(StatusCode.OK).json(
+      new ApiResponseBuilder()
+        .statusCode(StatusCode.OK)
+        .message("User fetched successfully")
+        .data(user)
         .build()
     );
   });

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcryptjs, { hash } from "bcryptjs";
+import bcryptjs from "bcryptjs";
 import { SALT_ROUND } from "../config/config";
 
 const userSchema: mongoose.Schema = new mongoose.Schema({
@@ -15,9 +15,6 @@ const userSchema: mongoose.Schema = new mongoose.Schema({
   password: {
     "type": String,
     "required": true,
-  },
-  refreshToken: {
-    "type": String,
   },
   expenses: {
     "type": [mongoose.SchemaTypes.ObjectId],
