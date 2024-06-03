@@ -1,8 +1,8 @@
 enum SourceType {
-  CASH = "cash",
-  BANK = "bank",
-  CARD = "card",
-  E_WALLET = "e-wallet"
+  CASH = "CASH",
+  BANK = "BANK",
+  CREDIT_CARD = "CREDIT CARD",
+  E_WALLET = "E-WALLET"
 }
 
 export default SourceType;

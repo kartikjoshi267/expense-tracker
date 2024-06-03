@@ -15,7 +15,12 @@ const sourceSchema: mongoose.Schema = new mongoose.Schema({
     "type": mongoose.SchemaTypes.ObjectId,
     "ref": "user",
     "required": true
-  }
+  },
+  expenses: {
+    "type": [mongoose.SchemaTypes.ObjectId],
+    "ref": "expense",
+    "default": []
+  },
 });
 
 const Source = mongoose.model("source", sourceSchema);

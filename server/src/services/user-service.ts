@@ -63,7 +63,7 @@ class UserService {
   public static async getUserById(userId: string): Promise<any> {
     const user = await User.findById(userId).select(
       "-password -refreshToken -__v -createdAt -updatedAt -_id"
-    );
+    ).populate("sources");
 
     if (!user) {
       throw new BadRequestError("Invalid token");
