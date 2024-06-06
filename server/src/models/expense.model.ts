@@ -27,7 +27,7 @@ const expenseSchema: mongoose.Schema = new mongoose.Schema({
     "ref": "source",
     "required": true
   }
-});
+}, { timestamps: true });
 
 const Expense = mongoose.model("expense", expenseSchema);
 

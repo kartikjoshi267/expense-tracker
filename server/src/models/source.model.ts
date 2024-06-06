@@ -21,7 +21,7 @@ const sourceSchema: mongoose.Schema = new mongoose.Schema({
     "ref": "expense",
     "default": []
   },
-});
+}, { timestamps: true });
 
 const Source = mongoose.model("source", sourceSchema);
 

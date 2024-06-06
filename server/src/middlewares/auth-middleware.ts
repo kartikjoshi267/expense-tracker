@@ -1,5 +1,5 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { REFRESH_TOKEN_SECRET, ACCESS_TOKEN_SECRET } from '../config/config';
+import { ACCESS_TOKEN_SECRET } from '../config/config';
 import BadRequestError from '../utils/err/bad-request-error';
 import CustomError from '../utils/err/custom-error';
 import StatusCode from '../enums/status-codes';

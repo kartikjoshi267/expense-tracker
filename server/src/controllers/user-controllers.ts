@@ -6,7 +6,7 @@ import BadRequestError from "../utils/err/bad-request-error";
 import bcryptjs from "bcryptjs";
 import { generateAccessToken, generateRefreshToken, verifyAccessToken, verifyRefreshToken } from "./helpers/jwt-helpers";
 import { authMiddleware } from "../middlewares/auth-middleware";
-import { getCookie } from "../utils/cookies";
+import { eraseCookie, getCookie } from "../utils/cookies";
 import UserService from "../services/user-service";
 
 const UserController = async (router: IRouter<Router>) => {
@@ -81,6 +81,22 @@ const UserController = async (router: IRouter<Router>) => {
         .statusCode(StatusCode.OK)
         .message("User fetched successfully")
         .data(user)
+        .build()
+    );
+  });
+
+  router.post("/logout", authMiddleware, async (req, res) => {
+    const userId = req.headers.userId;
+    if (!userId) {
+      throw new BadRequestError("Invalid user");
+    }
+
+    res.clearCookie("accessToken");
+    res.clearCookie("refreshToken");
+    res.status(StatusCode.OK).json(
+      new ApiResponseBuilder()
+        .statusCode(StatusCode.OK)
+        .message("User logged out successfully")
         .build()
     );
   });

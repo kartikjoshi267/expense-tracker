@@ -92,7 +92,7 @@ const SourceController = async (router: IRouter<Router>) => {
     );
   });
 
-  router.patch("/:id", authMiddleware, async (req, res) => {
+  router.put("/:id", authMiddleware, async (req, res) => {
     const userId = req.headers.userId;
     if (!userId) {
       throw new BadRequestError("User not found");

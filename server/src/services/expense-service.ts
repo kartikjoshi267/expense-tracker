@@ -16,7 +16,7 @@ class ExpenseService {
     await expense.save();
     
     await Source.findOneAndUpdate({
-      source: sourceId,
+      _id: sourceId,
       user: userId,
     }, {
       $push: { expenses: expense._id }
@@ -30,12 +30,22 @@ class ExpenseService {
   }
 
   public static async getExpenses(userId: string) {
-    const expenses = await Expense.find({ user: userId });
+    const expenses = await Expense.find({ user: userId }).populate({
+      path: "source",
+      populate: {
+        path: "expenses"
+      }
+    });
     return expenses;
   }
 
   public static async getExpensesBySource(userId: string, sourceId: string) {
-    const expenses = await Expense.find({ user: userId, source: sourceId });
+    const expenses = await Expense.find({ user: userId, source: sourceId }).populate({
+      path: "source",
+      populate: {
+        path: "expenses"
+      }
+    });
     return expenses;
   }
 
@@ -57,7 +67,12 @@ class ExpenseService {
   }
 
   public static async updateExpense(userId: string, expenseId: string, title: string, description: string, amount: number, date: string, sourceId: string) {
-    const expense = await Expense.findOne({ _id: expenseId, user: userId });
+    const expense = await Expense.findOne({ _id: expenseId, user: userId }).populate({
+      path: "source",
+      populate: {
+        path: "expenses"
+      }
+    });
     if (!expense) {
       return null;
     }

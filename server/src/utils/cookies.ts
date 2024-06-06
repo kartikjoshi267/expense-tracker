@@ -5,6 +5,10 @@ export const setCookie = (req: Request, name: string, value: string) => {
 }
 
 export const getCookie = (req: Request, name: string) => {
+  if (!req.headers.cookie) {
+    return null;
+  }
+
   var nameEQ = name + "=";
   var ca = req.headers.cookie.split(';');
   for(var i=0;i < ca.length;i++) {
@@ -15,6 +19,6 @@ export const getCookie = (req: Request, name: string) => {
   return null;
 }
 
-export const eraseCookie = (req: Request, name: string) => {   
+export const eraseCookie = (req: Request, name: string) => {
   req.headers.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
