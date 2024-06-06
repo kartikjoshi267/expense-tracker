@@ -6,7 +6,8 @@
   "scripts": {
     "warning": "echo Starting the server can take a lot of time. Please wait!",
     "dev": "npm run warning && nodemon src/server.ts",
-    "start": "tsc && node dist/server.js",
+    "build": "tsc",
+    "start": "node dist/server.js",
     "lint": "eslint . --ext .ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
