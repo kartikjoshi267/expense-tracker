@@ -7,7 +7,7 @@ const Register = (): React.ReactNode => {
   const { register } = useUser();
 
   const [credentials, setCredentials] = useState({
-    title: "",
+    name: "",
     email: "",
     password: "",
   });
