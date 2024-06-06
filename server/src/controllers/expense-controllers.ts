@@ -1,4 +1,4 @@
-import { IRouter, Router } from "express";
+import { Router } from "express";
 import ApiResponseBuilder from "../utils/api-response-builder";
 import StatusCode from "../enums/status-codes";
 import BadRequestError from "../utils/err/bad-request-error";
@@ -6,7 +6,7 @@ import ExpenseService from "../services/expense-service";
 import { authMiddleware } from "../middlewares/auth-middleware";
 import Source from "../models/source.model";
 
-const ExpenseController = async (router: IRouter<Router>) => {
+const ExpenseController = async (router: Router) => {
   router.post("/", authMiddleware, async (req, res) => {
     const { title, description, amount, date, sourceId } = req.body;
     if (!title || !amount || !date || !sourceId) {

@@ -1,4 +1,4 @@
-import { IRouter, Router } from "express";
+import { Router } from "express";
 import StatusCode from "../enums/status-codes";
 import ApiResponseBuilder from "../utils/api-response-builder";
 import SourceType from "../enums/source-types";
@@ -6,7 +6,7 @@ import { authMiddleware } from "../middlewares/auth-middleware";
 import BadRequestError from "../utils/err/bad-request-error";
 import SourceService from "../services/source-service";
 
-const SourceController = async (router: IRouter<Router>) => {
+const SourceController = async (router: Router) => {
   router.get("/types", async (req, res) => {
     res.status(StatusCode.OK).json(
       new ApiResponseBuilder()

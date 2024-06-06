@@ -1,4 +1,4 @@
-import { IRouter, Request, Response, Router } from "express";
+import { Request, Response, Router } from "express";
 import ApiResponseBuilder from "../utils/api-response-builder";
 import StatusCode from "../enums/status-codes";
 import User from "../models/user.model";
@@ -9,7 +9,7 @@ import { authMiddleware } from "../middlewares/auth-middleware";
 import { eraseCookie, getCookie } from "../utils/cookies";
 import UserService from "../services/user-service";
 
-const UserController = async (router: IRouter<Router>) => {
+const UserController = async (router: Router) => {
   router.post('/register', async (req: Request, res: Response) => {
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
