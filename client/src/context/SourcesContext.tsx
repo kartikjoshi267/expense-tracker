@@ -72,7 +72,6 @@ export const SourceProvider = ({ children }: { children: React.ReactNode }): Rea
     type: string;
   }) => {
     try {
-      console.log(newSourceData);
       const { data } = await axios.post(`${SOURCE_BACKEND_URL}/`, newSourceData, {
         withCredentials: true,
         headers: {

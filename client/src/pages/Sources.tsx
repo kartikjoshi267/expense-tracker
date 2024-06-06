@@ -41,7 +41,7 @@ const Sources = (): React.ReactNode => {
       const sourceExpenses = expenses.filter((expense: { source: any }) => expense.source._id === source._id);
       const sourceExpensesForEachDate = Array.from({ length: daysInMonth }, (_, i) => {
         const date = new Date(year, month - 1, i + 1);
-        const totalExpense = sourceExpenses.filter((expense: { date: string }) => new Date(expense.date).getDate() === date.getDate()).reduce((acc: number, expense: { amount: number }) => acc + expense.amount, 0);
+        const totalExpense = sourceExpenses.filter((expense: { date: string }) => new Date(expense.date).getDate() === date.getDate() && new Date(expense.date).getMonth() === date.getMonth() && new Date(expense.date).getFullYear() === date.getFullYear()).reduce((acc: number, expense: { amount: number }) => acc + expense.amount, 0);
         return {
           date: date.toLocaleDateString(),
           value: totalExpense,
@@ -53,8 +53,6 @@ const Sources = (): React.ReactNode => {
         data: sourceExpensesForEachDate,
       };
     });
-
-    console.log(eachSourceExpenses);
 
     return eachSourceExpenses;
   }
