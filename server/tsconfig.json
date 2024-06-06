@@ -5,8 +5,13 @@
     "esModuleInterop": true,
     "target": "es6",
     "sourceMap": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "types": [
+      "node"
+    ],
   },
-  "types": ["node"],
   "lib": ["es2015"]
 }
