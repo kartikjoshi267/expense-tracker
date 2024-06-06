@@ -1,7 +1,7 @@
-import { IRouter, Router } from "express";
+import { Router } from "express";
 import SourceController from "../controllers/source-controllers";
 
-const router: IRouter<Router> = Router();
+const router: Router = Router();
 
 SourceController(router);
 

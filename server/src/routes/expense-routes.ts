@@ -1,7 +1,7 @@
-import { IRouter, Router } from "express";
+import { Router } from "express";
 import ExpenseController from "../controllers/expense-controllers";
 
-const router: IRouter<Router> = Router();
+const router: Router = Router();
 
 ExpenseController(router);
 
