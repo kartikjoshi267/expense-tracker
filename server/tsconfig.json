@@ -7,5 +7,6 @@
     "sourceMap": true,
     "outDir": "dist"
   },
+  "types": ["node"],
   "lib": ["es2015"]
 }
