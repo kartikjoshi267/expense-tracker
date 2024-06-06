@@ -7,6 +7,7 @@ import PieChartComponent from "../components/PieChartComponent";
 import { useExpense } from "../context/ExpensesContext";
 import BarChartComponent from "../components/BarChartComponent";
 import { useState } from "react";
+import { useSource } from "../context/SourcesContext";
 
 const Dashboard = (): React.ReactNode => {
   // @ts-expect-error "unexpected error"
@@ -15,11 +16,12 @@ const Dashboard = (): React.ReactNode => {
   // @ts-expect-error "unexpected error"
   const { expenses } = useExpense();
 
+  // @ts-expect-error "unexpected error"
+  const { sources } = useSource();
+
   const [days, setDays] = useState(7);
 
   const calculateExpenseOfEachSource = () => {
-    const sources = user.sources;
-
     const sourceExpense = sources.map((source: { _id: string; name: string }) => {
       const sourceExpenses = expenses.filter((expense: { source: any }) => expense.source._id === source._id);
       const totalExpense = sourceExpenses.reduce((acc: number, expense: { amount: number }) => acc + expense.amount, 0);
@@ -79,7 +81,7 @@ const Dashboard = (): React.ReactNode => {
               <Link to="/sources" className="text-purple-900 font-medium text-md bg-purple-300 p-1 rounded-md hover:bg-purple-500 hover:text-white transition-all">View all</Link>
             </div>
             <ul>
-              {user.sources.length ? user.sources.slice(0, 3).map((source: any) => (
+              {sources.length ? sources.slice(0, 3).map((source: any) => (
                 <Source key={source._id} source={source} />
               )) : (
                 <div className="flex flex-col justify-center items-center m-10">

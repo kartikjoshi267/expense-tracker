@@ -4,13 +4,18 @@ import { useModal } from '../../context/ModalContext';
 import { useUser } from '../../context/UserContext';
 import { ImCross } from 'react-icons/im';
 import { useExpense } from '../../context/ExpensesContext';
+import { useSource } from '../../context/SourcesContext';
+import { toast } from 'react-toastify';
 
 const AddExpenseModal = () => {
   // @ts-expect-error "unexpected error"
   const { user } = useUser();
 
   // @ts-expect-error "unexpected error"
-  const { type, isOpen, closeModal } = useModal();
+  const { sources } = useSource();
+
+  // @ts-expect-error "unexpected error"
+  const { type, isOpen, openModal, closeModal } = useModal();
   
   // @ts-expect-error "unexpected error"
   const { addExpense } = useExpense();
@@ -47,6 +52,13 @@ const AddExpenseModal = () => {
   }
 
   if (type !== "add-expense" || !isOpen) {
+    return null;
+  }
+
+  if (!sources || sources.length === 0) {
+    toast.error("Please add a source first!");
+    closeModal();
+    openModal("add-source");
     return null;
   }
 
@@ -89,7 +101,7 @@ const AddExpenseModal = () => {
             name='sourceId'
             className='w-full p-3 rounded-md border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200'
           >
-            {user.sources.map((source: any) => (
+            {sources.map((source: any) => (
               <option key={source._id} value={source._id}>{source.name}</option>
             ))}
           </select>
