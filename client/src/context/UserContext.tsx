@@ -39,7 +39,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       if (data.error) {
-        toast.error(data.error);
         return;
       }
 
@@ -48,7 +47,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       setRefreshTokenExpiry(Date.now());
     } catch (error) {
       console.error("Error refreshing token:", error);
-      toast.error("Failed to refresh token.");
     }
   }
 
@@ -76,7 +74,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(data.data);
     } catch (error) {
       console.error("Error getting user:", error);
-      toast.error("Failed to get user.");
     }
   }, [navigate, refreshTokenExpiry]);
 
