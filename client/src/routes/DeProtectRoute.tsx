@@ -1,5 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom"
 import { useUser } from "../context/UserContext";
+import Navbar from "../components/Navbar";
 
 const DeProtectRoute = () => {
   // @ts-expect-error "unexpected ts error"
@@ -10,7 +11,10 @@ const DeProtectRoute = () => {
   }
 
   return (
-    <Outlet />
+    <>
+      <Navbar user={user} />
+      <Outlet />
+    </>
   )
 }
 

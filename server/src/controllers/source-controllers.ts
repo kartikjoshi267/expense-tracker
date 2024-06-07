@@ -75,7 +75,7 @@ const SourceController = async (router: Router) => {
     );
   });
 
-  router.delete("/:id", authMiddleware, async (req, res) => {
+  router.post("/:id", authMiddleware, async (req, res) => {
     const userId = req.headers.userId;
     if (!userId) {
       throw new BadRequestError("User not found");

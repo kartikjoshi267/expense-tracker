@@ -24,23 +24,23 @@ const Expenses = (): React.ReactNode => {
       .slice(0, 10);
 
     return last10Expenses.map((expense: any) => ({
-      name: expense.source.name,
-      value: expense.amount,
+      name: expense?.source?.name,
+      value: expense?.amount,
     }));
   }
 
   // calculate expenses for month and year
   const calculateMonthAndYearExpenses = () => {
-    const monthExpenses = expenses.filter((expense: any) => new Date(expense.date).getMonth() === month - 1 && new Date(expense.date).getFullYear() === year);
+    const monthExpenses = expenses.filter((expense: any) => new Date(expense?.date).getMonth() === month - 1 && new Date(expense?.date).getFullYear() === year);
 
     // output should be an array of { name: string, value: number } where value needs to sum total of amount spent on a date and name should be the date
     // if any date is not found,, then the value for that date should be 0
     const expenseAmountForEachDate = monthExpenses.reduce((acc: { [x: string]: number }, expense: { date: string; amount: number }) => {
-      const date = new Date(expense.date);
+      const date = new Date(expense?.date);
       if (acc[date.toDateString()]) {
-        acc[date.toDateString()] += expense.amount;
+        acc[date.toDateString()] += expense?.amount;
       } else {
-        acc[date.toDateString()] = expense.amount;
+        acc[date.toDateString()] = expense?.amount;
       }
       return acc;
     }, {});
@@ -93,12 +93,12 @@ const Expenses = (): React.ReactNode => {
           </div>
         </div>
         <div className="flex flex-col space-y-10 h-100 w-full">
-          <div className="rounded-md p-4 bg-purple-100 space-y-2 min-h-64 h-auto w-100 overflow-hidden">
+          <div className="rounded-md p-4 bg-purple-100 space-y-2 min-h-72 h-auto w-100 overflow-hidden">
             <h3 className="font-semibold text-xl text-purple-700">Your Expenses</h3>
-            <ul className="overflow-auto xl:h-[710px] max-h-[710px]">
+            <ul className="overflow-auto max-h-[710px]">
               {
                 expenses.length ? expenses.sort((a: { date: string }, b: { date: string }) => new Date(b.date).getTime() - new Date(a.date).getTime()).map((expense: any) => (
-                    <Expense key={expense._id} expense={expense} />
+                    <Expense key={expense?._id} expense={expense} />
                   )) : (
                   <div className="flex flex-col justify-center items-center m-10 space-y-2">
                     <p className="text-lg font-semibold text-slate-500">No expenses added yet.</p>

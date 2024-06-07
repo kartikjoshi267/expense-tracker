@@ -3,12 +3,16 @@ import axios from "axios";
 import { EXPIRY_TIME_ACCESS_TOKEN, EXPIRY_TIME_REFRESH_TOKEN, USER_BACKEND_URL } from "../config/config";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useAxiosInstance } from "./AxiosInstanceContext";
 
 axios.defaults.validateStatus = () => true;
 
 const userContext = createContext({});
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  // @ts-expect-error "unexpected error"
+  const { axiosInstance } = useAxiosInstance();
+
   const [user, setUser] = useState(null);
 
   const [accessTokenExpiry, setAccessTokenExpiry]: [number | null, React.Dispatch<SetStateAction<number | null>>] = useState(localStorage.getItem('expiry_time_access_token') ? Number(localStorage.getItem('expiry_time_access_token')) : null);
@@ -101,7 +105,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = async ({ email, password }: { email: string, password: string }) => {
     try {
-      const { data } = await axios.post(USER_BACKEND_URL + "/login", {
+      const { data } = await axiosInstance.post(USER_BACKEND_URL + "/login", {
         email,
         password,
       }, {
@@ -132,7 +136,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   const register = async ({ name, email, password }: { name: string, email: string, password: string }) => {
     try {
-      const { data } = await axios.post(USER_BACKEND_URL + "/register", {
+      const { data } = await axiosInstance.post(USER_BACKEND_URL + "/register", {
         name,
         email,
         password,
@@ -158,7 +162,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = async () => {
     try {
-      const { data } = await axios.post(USER_BACKEND_URL + "/logout", {}, {
+      const { data } = await axiosInstance.post(USER_BACKEND_URL + "/logout", {}, {
         withCredentials: true,
       });
 

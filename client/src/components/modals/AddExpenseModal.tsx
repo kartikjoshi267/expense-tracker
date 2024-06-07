@@ -6,6 +6,7 @@ import { ImCross } from 'react-icons/im';
 import { useExpense } from '../../context/ExpensesContext';
 import { useSource } from '../../context/SourcesContext';
 import { toast } from 'react-toastify';
+import formatDate from '../../utils/date-formatter';
 
 const AddExpenseModal = () => {
   // @ts-expect-error "unexpected error"
@@ -16,15 +17,15 @@ const AddExpenseModal = () => {
 
   // @ts-expect-error "unexpected error"
   const { type, isOpen, openModal, closeModal } = useModal();
-  
+
   // @ts-expect-error "unexpected error"
   const { addExpense } = useExpense();
 
   const [newExpenseData, setNewExpenseData] = useState({
     title: '',
     amount: 0,
-    sourceId: user && user.sources.length ? user.sources[0]._id : '',
-    date: '',
+    sourceId: sources && sources.length ? sources[0]._id : '',
+    date: formatDate(new Date()),
     description: '',
   });
 
@@ -32,17 +33,17 @@ const AddExpenseModal = () => {
     setNewExpenseData({
       title: '',
       amount: 0,
-      sourceId: user && user.sources.length ? user.sources[0]._id : '',
-      date: '',
+      sourceId: sources && sources.length ? sources[0]._id : '',
+      date: formatDate(new Date()),
       description: '',
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   if (!user) {
     return null;
   }
-  
+
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setNewExpenseData({
@@ -61,6 +62,17 @@ const AddExpenseModal = () => {
     openModal("add-source");
     return null;
   }
+
+  const addExpenseHandler = async () => {
+    await addExpense(newExpenseData);
+    setNewExpenseData({
+      title: '',
+      amount: 0,
+      sourceId: sources && sources.length ? sources[0]._id : '',
+      date: formatDate(new Date()),
+      description: '',
+    });
+  } 
 
   return (
     <div className='fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50 flex justify-center items-center z-10'>
@@ -102,7 +114,7 @@ const AddExpenseModal = () => {
             className='w-full p-3 rounded-md border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200'
           >
             {sources.map((source: any) => (
-              <option key={source._id} value={source._id}>{source.name}</option>
+              <option key={source?._id} value={source?._id}>{source?.name}</option>
             ))}
           </select>
         </div>
@@ -128,7 +140,7 @@ const AddExpenseModal = () => {
           ></textarea>
         </div>
         <div className='flex justify-end'>
-          <button onClick={() => addExpense(newExpenseData)} className='bg-purple-500 text-white p-3 rounded-md hover:bg-purple-600 transition'>
+          <button onClick={() => addExpenseHandler()} className='bg-purple-500 text-white p-3 rounded-md hover:bg-purple-600 transition'>
             Add Expense
           </button>
         </div>

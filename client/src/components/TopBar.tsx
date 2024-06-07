@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Avatar from "react-avatar";
 import { TbLogout } from "react-icons/tb";
-import { useScreenResize } from "../context/ScreenSizeContext";
+import { useScreenResize } from "../context/ScreenResizeContext";
 import { BiMenu } from "react-icons/bi";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

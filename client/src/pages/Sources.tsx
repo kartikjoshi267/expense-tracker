@@ -23,10 +23,10 @@ const Sources = (): React.ReactNode => {
 
   const calculateExpenseOfEachSource = () => {
     const sourceExpense = sources.map((source: { _id: string; name: string }) => {
-      const sourceExpenses = expenses.filter((expense: { source: any }) => expense.source._id === source._id);
-      const totalExpense = sourceExpenses.reduce((acc: number, expense: { amount: number }) => acc + expense.amount, 0);
+      const sourceExpenses = expenses.filter((expense: { source: any }) => expense?.source?._id === source?._id);
+      const totalExpense = sourceExpenses.reduce((acc: number, expense: { amount: number }) => acc + expense?.amount, 0);
       return {
-        name: source.name,
+        name: source?.name,
         value: totalExpense,
       };
     });
@@ -38,10 +38,10 @@ const Sources = (): React.ReactNode => {
   const calculateEachSourceExpensesForEachDate = () => {
     const daysInMonth = new Date(year, month, 0).getDate();
     const eachSourceExpenses = sources.map((source: { _id: string; name: string }) => {
-      const sourceExpenses = expenses.filter((expense: { source: any }) => expense.source._id === source._id);
+      const sourceExpenses = expenses.filter((expense: { source: any }) => expense?.source?._id === source?._id);
       const sourceExpensesForEachDate = Array.from({ length: daysInMonth }, (_, i) => {
         const date = new Date(year, month - 1, i + 1);
-        const totalExpense = sourceExpenses.filter((expense: { date: string }) => new Date(expense.date).getDate() === date.getDate() && new Date(expense.date).getMonth() === date.getMonth() && new Date(expense.date).getFullYear() === date.getFullYear()).reduce((acc: number, expense: { amount: number }) => acc + expense.amount, 0);
+        const totalExpense = sourceExpenses.filter((expense: { date: string }) => new Date(expense?.date).getDate() === date.getDate() && new Date(expense?.date).getMonth() === date.getMonth() && new Date(expense?.date).getFullYear() === date.getFullYear()).reduce((acc: number, expense: { amount: number }) => acc + expense?.amount, 0);
         return {
           date: date.toLocaleDateString(),
           value: totalExpense,
@@ -49,7 +49,7 @@ const Sources = (): React.ReactNode => {
       });
 
       return {
-        name: source.name,
+        name: source?.name,
         data: sourceExpensesForEachDate,
       };
     });
@@ -102,12 +102,12 @@ const Sources = (): React.ReactNode => {
           </div>
         </div>
         <div className="flex flex-col space-y-10 h-100 w-full">
-          <div className="rounded-md p-4 bg-purple-100 space-y-2 min-h-64 h-auto w-100 overflow-hidden">
+          <div className="rounded-md p-4 bg-purple-100 space-y-2 min-h-[530px] h-auto w-100 overflow-hidden">
             <h3 className="font-semibold text-xl text-purple-700">Your Sources</h3>
-            <ul className="overflow-auto xl:h-[710px] max-h-[710px]">
+            <ul className="overflow-auto max-h-[710px]">
               {
                 sources.length ? sources.map((source: any) => (
-                    <Source key={source._id} source={source} />
+                    <Source key={source?._id} source={source} />
                   )) : (
                   <div className="flex flex-col justify-center items-center m-10 space-y-2">
                     <p className="text-lg font-semibold text-slate-500">No sources added yet.</p>

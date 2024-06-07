@@ -28,12 +28,28 @@ const DeleteConfirmModal = () => {
     closeModal();
   }
 
+  // give a styled modal
   return (
-    <div>
-      <h2>Are you sure you want to delete this?</h2>
-      <button onClick={deleteHandler}>Yes</button>
-      <button onClick={() => closeModal()}>No</button>
+    <div className='fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50 flex justify-center items-center z-10'>
+      <div className='bg-white p-10 rounded-lg'>
+        <h2>Are you sure you want to delete this?</h2>
+        {/* style these buttons */}
+        <div className="
+          flex
+          justify-end
+          space-x-3
+          mt-4
+        ">
+          <button className="rounded-md bg-rose-500 p-2 w-12 text-center text-white hover:bg-rose-600 transition-all" onClick={deleteHandler}>Yes</button>
+          <button className="rounded-md bg-purple-500 p-2 w-12 text-center text-white hover:bg-purple-600 transition-all" onClick={() => closeModal()}>No</button>
+        </div>
+      </div>
     </div>
+    // <div>
+    //   <h2>Are you sure you want to delete this?</h2>
+    //   <button onClick={deleteHandler}>Yes</button>
+    //   <button onClick={() => closeModal()}>No</button>
+    // </div>
   );
 }
 

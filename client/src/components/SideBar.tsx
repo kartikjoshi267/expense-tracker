@@ -4,7 +4,7 @@ import logo from "../assets/logo.png";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
 import { FaPiggyBank } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
-import { useScreenResize } from "../context/ScreenSizeContext";
+import { useScreenResize } from "../context/ScreenResizeContext";
 import { ImCross } from "react-icons/im";
 
 const SidebarComponent = (): React.ReactNode => {
@@ -24,11 +24,15 @@ const SidebarComponent = (): React.ReactNode => {
         isMobile ? (
           <div className="flex flex-row items-center justify-between w-full px-3 py-2">
             <ImCross className="text-sm cursor-pointer text-slate-400" onClick={() => setSidebarOpen(false)} />
-            <img src={logo} alt="logo" className="w-[100px] mt-1" />
+            <Link to={"/"} onClick={() => setSidebarOpen(false)} className="w-fit h-[90px]">
+              <img src={logo} alt="logo" className="w-[100px] mt-1" />
+            </Link>
             <div></div>
           </div>
         ) : (
-          <img src={logo} alt="logo" className="w-[100px] mt-5" />
+          <Link to={"/"} className="w-fit h-[90px]">
+            <img src={logo} alt="logo" className="w-[100px] mt-5" />
+          </Link>
         )
       }
       <ul className="flex flex-col w-full text-gray-500 font-medium h-full bg-white">

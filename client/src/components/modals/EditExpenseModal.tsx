@@ -35,7 +35,7 @@ const EditExpenseModal = () => {
   const [newExpenseData, setNewExpenseData] = useState({
     title: (currentExpense as any) ? (currentExpense as any).title : '',
     amount: (currentExpense as any) ? (currentExpense as any).amount : 0,
-    sourceId: (currentExpense as any) ? (currentExpense as any).source._id : (sources.length ? sources[0]._id : '' ),
+    sourceId: (currentExpense as any) ? (currentExpense as any).source?._id : (sources.length ? sources[0]._id : '' ),
     date: (currentExpense as any) ? formatDate(new Date((currentExpense as any).date)) : '',
     description: (currentExpense as any) ? (currentExpense as any).description : '',
   });
@@ -44,7 +44,7 @@ const EditExpenseModal = () => {
     setNewExpenseData({
       title: (currentExpense as any) ? (currentExpense as any).title : '',
       amount: (currentExpense as any) ? (currentExpense as any).amount : 0,
-      sourceId: (currentExpense as any) ? (currentExpense as any).source._id : (sources.length ? sources[0]._id : '' ),
+      sourceId: (currentExpense as any) ? (currentExpense as any).source?._id : (sources.length ? sources[0]._id : '' ),
       date: (currentExpense as any) ? formatDate(new Date((currentExpense as any).date)) : '',
       description: (currentExpense as any) ? (currentExpense as any).description : '',
     });
@@ -107,7 +107,7 @@ const EditExpenseModal = () => {
             value={newExpenseData.sourceId}
           >
             {sources.map((source: any) => (
-              <option key={source._id} value={source._id}>{source.name}</option>
+              <option key={source?._id} value={source?._id}>{source?.name}</option>
             ))}
           </select>
         </div>
@@ -142,7 +142,7 @@ const EditExpenseModal = () => {
             setNewExpenseData({
               title: '',
               amount: 0,
-              sourceId: user.sources.length ? user.sources[0]._id : '',
+              sourceId: sources.length ? sources[0]._id : '',
               date: '',
               description: '',
             });

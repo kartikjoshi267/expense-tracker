@@ -4,25 +4,28 @@ import './index.css'
 import { UserProvider } from './context/UserContext.tsx'
 import 'react-toastify/dist/ReactToastify.css'
 import { BrowserRouter } from 'react-router-dom'
-import { ScreenResizeProvider } from './context/ScreenSizeContext.tsx'
+import { ScreenResizeProvider } from './context/ScreenResizeContext.tsx'
 import { ExpenseProvider } from './context/ExpensesContext.tsx'
 import { ModalContextProvider } from './context/ModalContext.tsx'
 import ModalProvider from './context/providers/ModalProvider.tsx'
 import { SourceProvider } from './context/SourcesContext.tsx'
+import { AxiosInstanceProvider } from './context/AxiosInstanceContext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
-    <ScreenResizeProvider>
-      <ModalContextProvider>
-        <UserProvider>
-          <SourceProvider>
+    <AxiosInstanceProvider>
+      <ScreenResizeProvider>
+        <ModalContextProvider>
+          <UserProvider>
             <ExpenseProvider>
-              <ModalProvider />
-              <App />
+              <SourceProvider>
+                <ModalProvider />
+                <App />
+              </SourceProvider>
             </ExpenseProvider>
-          </SourceProvider>
-        </UserProvider>
-      </ModalContextProvider>
-    </ScreenResizeProvider>
+          </UserProvider>
+        </ModalContextProvider>
+      </ScreenResizeProvider>
+    </AxiosInstanceProvider>
   </BrowserRouter>,
 )

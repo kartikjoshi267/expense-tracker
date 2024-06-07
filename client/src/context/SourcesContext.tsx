@@ -5,6 +5,8 @@ import axios from "axios";
 import { SOURCE_BACKEND_URL } from "../config/config";
 import { toast } from "react-toastify";
 import { useModal } from "./ModalContext";
+import { useExpense } from "./ExpensesContext";
+import { useAxiosInstance } from "./AxiosInstanceContext";
 
 axios.defaults.validateStatus = () => true;
 
@@ -12,9 +14,13 @@ const sourceContext = createContext({});
 
 export const SourceProvider = ({ children }: { children: React.ReactNode }): React.ReactNode => {
   // @ts-expect-error "unexpected error"
+  const { axiosInstance } = useAxiosInstance();
+  // @ts-expect-error "unexpected error"
   const { user } = useUser();
   // @ts-expect-error "unexpected error"
   const { closeModal } = useModal();
+  // @ts-expect-error "unexpected error"
+  const { getExpenses } = useExpense();
 
   // @ts-expect-error "unexpected error"
   const [sources, setSources]: [
@@ -39,6 +45,7 @@ export const SourceProvider = ({ children }: { children: React.ReactNode }): Rea
       }
       
       setSources(data.data);
+      await getExpenses();
       toast.success(data.message);
     } catch (error) {
       console.error(error);
@@ -72,7 +79,7 @@ export const SourceProvider = ({ children }: { children: React.ReactNode }): Rea
     type: string;
   }) => {
     try {
-      const { data } = await axios.post(`${SOURCE_BACKEND_URL}/`, newSourceData, {
+      const { data } = await axiosInstance.post(`${SOURCE_BACKEND_URL}/`, newSourceData, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
@@ -98,7 +105,7 @@ export const SourceProvider = ({ children }: { children: React.ReactNode }): Rea
     type: string;
   }, id: string) => {
     try {
-      const { data } = await axios.put(`${SOURCE_BACKEND_URL}/${id}`, newSourceData, {
+      const { data } = await axiosInstance.put(`${SOURCE_BACKEND_URL}/${id}`, newSourceData, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
@@ -121,7 +128,7 @@ export const SourceProvider = ({ children }: { children: React.ReactNode }): Rea
 
   const getSourceById = async (id: string) => {
     try {
-      const { data } = await axios.get(`${SOURCE_BACKEND_URL}/${id}`, {
+      const { data } = await axiosInstance.get(`${SOURCE_BACKEND_URL}/${id}`, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
@@ -142,7 +149,7 @@ export const SourceProvider = ({ children }: { children: React.ReactNode }): Rea
 
   const deleteSource = async (id: string) => {
     try {
-      const { data } = await axios.delete(`${SOURCE_BACKEND_URL}/${id}`, {
+      const { data } = await axiosInstance.post(`${SOURCE_BACKEND_URL}/${id}`, {}, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',

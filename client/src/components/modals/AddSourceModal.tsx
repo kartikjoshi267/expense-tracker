@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useModal } from '../../context/ModalContext';
 import { useUser } from '../../context/UserContext';
 import { ImCross } from 'react-icons/im';
@@ -20,10 +20,16 @@ const AddSourceModal = () => {
     type: types && types.length > 0 ? types[0] : '',
   });
 
+  useEffect(() => {
+    setNewSourceData({
+      name: '',
+      type: types && types.length > 0 ? types[0] : '',
+    });
+  }, [isOpen, types]);
+
   if (!user) {
     return null;
   }
-  
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setNewSourceData({
@@ -35,6 +41,14 @@ const AddSourceModal = () => {
   if (type !== "add-source" || !isOpen) {
     return null;
   }
+
+  const addSourceHandler = async () => {
+    await addSource(newSourceData);
+    setNewSourceData({
+      name: '',
+      type: types && types.length > 0 ? types[0] : '',
+    });
+  } 
 
   return (
     <div className='fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50 flex justify-center items-center z-10'>
@@ -62,6 +76,7 @@ const AddSourceModal = () => {
             onChange={onChangeHandler}
             name='type'
             className='w-full p-3 rounded-md border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200'
+            value={newSourceData.type}
           >
             {types.map((type: any) => (
               <option key={type} value={type}>{type}</option>
@@ -69,13 +84,7 @@ const AddSourceModal = () => {
           </select>
         </div>
         <div className='flex justify-end'>
-          <button onClick={() => {
-            addSource(newSourceData);
-            setNewSourceData({
-              name: '',
-              type: types && types.length > 0 ? types[0] : '',
-            });
-          }} className='bg-purple-500 text-white p-3 rounded-md hover:bg-purple-600 transition'>
+          <button onClick={() => addSourceHandler()} className='bg-purple-500 text-white p-3 rounded-md hover:bg-purple-600 transition'>
             Add Source
           </button>
         </div>

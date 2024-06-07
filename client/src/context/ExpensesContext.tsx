@@ -5,12 +5,15 @@ import axios from "axios";
 import { EXPENSES_BACKEND_URL } from "../config/config";
 import { toast } from "react-toastify";
 import { useModal } from "./ModalContext";
+import { useAxiosInstance } from "./AxiosInstanceContext";
 
 axios.defaults.validateStatus = () => true;
 
 const expenseContext = createContext({});
 
 export const ExpenseProvider = ({ children }: { children: React.ReactNode }): React.ReactNode => {
+  // @ts-expect-error "unexpected error"
+  const { axiosInstance } = useAxiosInstance();
   // @ts-expect-error "unexpected error"
   const { user } = useUser();
   // @ts-expect-error "unexpected error"
@@ -52,7 +55,7 @@ export const ExpenseProvider = ({ children }: { children: React.ReactNode }): Re
     date: string;
   }) => {
     try {
-      const { data } = await axios.post(`${EXPENSES_BACKEND_URL}/`, newExpenseData, {
+      const { data } = await axiosInstance.post(`${EXPENSES_BACKEND_URL}/`, newExpenseData, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
@@ -61,7 +64,6 @@ export const ExpenseProvider = ({ children }: { children: React.ReactNode }): Re
 
       if (data.error) {
         toast.error(data.error);
-        console.error(data.error);
         return;
       }
 
@@ -75,7 +77,7 @@ export const ExpenseProvider = ({ children }: { children: React.ReactNode }): Re
 
   const getExpenseById = async (id: string) => {
     try {
-      const { data } = await axios.get(`${EXPENSES_BACKEND_URL}/${id}`, {
+      const { data } = await axiosInstance.get(`${EXPENSES_BACKEND_URL}/${id}`, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +86,6 @@ export const ExpenseProvider = ({ children }: { children: React.ReactNode }): Re
 
       if (data.error) {
         toast.error(data.error);
-        console.error(data.error);
         return null;
       }
 
@@ -103,7 +104,7 @@ export const ExpenseProvider = ({ children }: { children: React.ReactNode }): Re
     date: string;
   }, id: string) => {
     try {
-      const { data } = await axios.put(`${EXPENSES_BACKEND_URL}/${id}`, newExpenseData, {
+      const { data } = await axiosInstance.put(`${EXPENSES_BACKEND_URL}/${id}`, newExpenseData, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
@@ -112,7 +113,6 @@ export const ExpenseProvider = ({ children }: { children: React.ReactNode }): Re
 
       if (data.error) {
         toast.error(data.error);
-        console.error(data.error);
         return;
       }
 
@@ -126,7 +126,7 @@ export const ExpenseProvider = ({ children }: { children: React.ReactNode }): Re
 
   const deleteExpense = async (id: string) => {
     try {
-      const { data } = await axios.delete(`${EXPENSES_BACKEND_URL}/${id}`, {
+      const { data } = await axiosInstance.post(`${EXPENSES_BACKEND_URL}/${id}`, {}, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
@@ -135,7 +135,6 @@ export const ExpenseProvider = ({ children }: { children: React.ReactNode }): Re
 
       if (data.error) {
         toast.error(data.error);
-        console.error(data.error);
         return;
       }
 
@@ -155,7 +154,7 @@ export const ExpenseProvider = ({ children }: { children: React.ReactNode }): Re
   }, [user]);
 
   return (
-    <expenseContext.Provider value={{ expenses, addExpense, getExpenseById, editExpense, deleteExpense }}>
+    <expenseContext.Provider value={{ expenses, addExpense, getExpenseById, editExpense, deleteExpense, getExpenses }}>
       {children}
     </expenseContext.Provider>
   )

@@ -23,10 +23,10 @@ const Dashboard = (): React.ReactNode => {
 
   const calculateExpenseOfEachSource = () => {
     const sourceExpense = sources.map((source: { _id: string; name: string }) => {
-      const sourceExpenses = expenses.filter((expense: { source: any }) => expense.source._id === source._id);
-      const totalExpense = sourceExpenses.reduce((acc: number, expense: { amount: number }) => acc + expense.amount, 0);
+      const sourceExpenses = expenses.filter((expense: { source: any }) => expense?.source?._id === source?._id);
+      const totalExpense = sourceExpenses.reduce((acc: number, expense: { amount: number }) => acc + expense?.amount, 0);
       return {
-        name: source.name,
+        name: source?.name,
         value: totalExpense,
       };
     });
@@ -38,11 +38,11 @@ const Dashboard = (): React.ReactNode => {
   const calculateExpenseAmountForEachDate = () => {
     const today = new Date();
     const lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - days);
-    const lastWeekExpenses = expenses.filter((expense: { date: string }) => new Date(expense.date) >= lastWeek);
+    const lastWeekExpenses = expenses.filter((expense: { date: string }) => new Date(expense?.date) >= lastWeek);
 
     const lastWeekExpensesForEachDate = Array.from({ length: days }, (_, i) => {
       const date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - i);
-      const totalExpense = lastWeekExpenses.filter((expense: { date: string }) => new Date(expense.date).getDate() === date.getDate()).reduce((acc: number, expense: { amount: number }) => acc + expense.amount, 0);
+      const totalExpense = lastWeekExpenses.filter((expense: { date: string }) => new Date(expense?.date).getDate() === date.getDate()).reduce((acc: number, expense: { amount: number }) => acc + expense?.amount, 0);
       return {
         name: date.toDateString(),
         value: totalExpense,
@@ -82,7 +82,7 @@ const Dashboard = (): React.ReactNode => {
             </div>
             <ul>
               {sources.length ? sources.slice(0, 3).map((source: any) => (
-                <Source key={source._id} source={source} />
+                <Source key={source?._id} source={source} />
               )) : (
                 <div className="flex flex-col justify-center items-center m-10">
                   <p className="text-lg font-semibold text-slate-500">No sources added yet.</p>
@@ -98,7 +98,7 @@ const Dashboard = (): React.ReactNode => {
             <ul>
               {
                 expenses.length ? expenses.sort((a: { date: string }, b: { date: string }) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 3).map((expense: any) => (
-                  <Expense key={expense._id} expense={expense} />
+                  <Expense key={expense?._id} expense={expense} />
                 )) : (
                   <div className="flex flex-col justify-center items-center m-10 space-y-2">
                     <p className="text-lg font-semibold text-slate-500">No expenses added yet.</p>

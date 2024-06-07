@@ -6,6 +6,7 @@ export const ScreenResizeProvider = ({ children }: { children: React.ReactNode }
   const [screenSize, setScreenSize] = useState(window.innerWidth);
   const [isMobile, setIsMobile] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [navbarOpen, setNavbarOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -21,11 +22,12 @@ export const ScreenResizeProvider = ({ children }: { children: React.ReactNode }
     setIsMobile(screenSize < 770);
     if (screenSize >= 770) {
       setSidebarOpen(false);
+      setNavbarOpen(false);
     }
   }, [screenSize]);
 
   return (
-    <screenSizeContext.Provider value={{ isMobile, screenSize, sidebarOpen, setSidebarOpen }}>
+    <screenSizeContext.Provider value={{ isMobile, screenSize, sidebarOpen, setSidebarOpen, navbarOpen, setNavbarOpen }}>
       {children}
     </screenSizeContext.Provider>
   );
