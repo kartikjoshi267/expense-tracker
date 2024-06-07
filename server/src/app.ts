@@ -11,11 +11,18 @@ import cors from 'cors';
 import StatusCode from './enums/status-codes';
 import logger from './utils/logger';
 import NotFoundError from './utils/err/not-found-error';
+import { FRONTEND_URL } from './config/config';
 
 const app = express();
-app.use(cors({
+const corsOptions = {
+  origin: FRONTEND_URL,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
-}));
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions))
 connectToDB();
 app.use(express.json());
 
