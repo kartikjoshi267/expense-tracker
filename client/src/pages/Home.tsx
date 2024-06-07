@@ -91,7 +91,14 @@ const Home = (): React.ReactNode => {
           </div>
         </section>
 
-        <section className="bg-blue-600 h-10"></section>
+        <footer className="bg-purple-600 p-5">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p className="text-white text-sm">© {new Date().getFullYear()} MyKhata. All rights reserved.</p>
+            <p className="text-white text-sm">Made with ❤️ by <a href="https://kartik-joshi-portfolio.vercel.app/" target="_blank" className="underline">Kartik Joshi</a></p>
+          </div>
+        </footer>
+
+        <section className="bg-blue-500 h-14"></section>
       </main>
     </div>
   );
