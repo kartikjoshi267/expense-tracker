@@ -19,7 +19,7 @@ const Home = (): React.ReactNode => {
           <div className="max-w-6xl mx-auto px-4 py-6 sm:px-0">
             <div className="bg-white rounded-lg shadow-md shadow-slate-500 p-8 flex flex-col items-center justify-center">
               <FaSmile className="text-purple-500 text-6xl mb-4" />
-              <h2 className="text-3xl font-bold text-gray-800 mb-2">Welcome to MyKhata</h2>
+              <h2 className="text-3xl font-bold text-gray-800 mb-2 text-center">Welcome to MyKhata</h2>
               <p className="text-md text-gray-600 text-center mb-4">
                 Track your expenses effortlessly. Manage your finances with ease and stay on top of your budget.
               </p>
