@@ -14,7 +14,9 @@ const userSchema: mongoose.Schema = new mongoose.Schema({
   },
   password: {
     "type": String,
-    "required": true,
+    "required": function() {
+      return !this.googleAuth;
+    },
   },
   expenses: {
     "type": [mongoose.SchemaTypes.ObjectId],
@@ -25,7 +27,19 @@ const userSchema: mongoose.Schema = new mongoose.Schema({
     "type": [mongoose.SchemaTypes.ObjectId],
     "ref": "source",
     "default": []
-  }
+  },
+  googleAuth: {
+    "type": Boolean,
+    "default": false
+  },
+  googleAccessToken: {
+    "type": String,
+    "default": null
+  },
+  googleRefreshToken: {
+    "type": String,
+    "default": null
+  },
 }, { timestamps: true });
 
 userSchema.pre('save', async function (next) {

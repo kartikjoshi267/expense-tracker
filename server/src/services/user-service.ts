@@ -32,6 +32,10 @@ class UserService {
       throw new BadRequestError("Invalid email or password");
     }
 
+    if (user.googleAuth) {
+      throw new BadRequestError("This user is registered with Google");
+    }
+
     const isMatch = await bcryptjs.compare(password, user.password as string);
 
     if (!isMatch) {

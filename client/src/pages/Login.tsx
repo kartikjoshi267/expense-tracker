@@ -4,7 +4,7 @@ import { useUser } from "../context/UserContext";
 
 const Login = (): React.ReactNode => {
   // @ts-expect-error "unexpected ts error"
-  const { login } = useUser();
+  const { login, handleGoogleLogin } = useUser();
 
   const [credentials, setCredentials] = useState({
     email: "",
@@ -52,6 +52,9 @@ const Login = (): React.ReactNode => {
                 placeholder="Password"
               />
             </div>
+            <button type="button" className="w-100" onClick={() => handleGoogleLogin()}>
+              <img src="https://synergy.trantorinc.com/documents/d/portal/google-signin-button" alt="google" />
+            </button>
             <div className="flex items-center justify-between md:flex-row flex-col md:space-y-0 space-y-4">
               <button
                 className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
