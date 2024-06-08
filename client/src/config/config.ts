@@ -10,4 +10,4 @@ export const EXPIRY_TIME_ACCESS_TOKEN = 5 * 60 * 1000;
 
 export const EXPIRY_TIME_REFRESH_TOKEN = 31556952000;
 
-export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+// export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;

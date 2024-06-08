@@ -10,13 +10,13 @@ import { ModalContextProvider } from './context/ModalContext.tsx'
 import ModalProvider from './context/providers/ModalProvider.tsx'
 import { SourceProvider } from './context/SourcesContext.tsx'
 import { AxiosInstanceProvider } from './context/AxiosInstanceContext.tsx'
-import { GoogleOAuthProvider } from '@react-oauth/google'
-import { GOOGLE_CLIENT_ID } from './config/config.ts'
+// import { GoogleOAuthProvider } from '@react-oauth/google'
+// import { GOOGLE_CLIENT_ID } from './config/config.ts'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <AxiosInstanceProvider>
-      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      {/* <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}> */}
         <ScreenResizeProvider>
           <ModalContextProvider>
             <UserProvider>
@@ -29,7 +29,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             </UserProvider>
           </ModalContextProvider>
         </ScreenResizeProvider>
-      </GoogleOAuthProvider>
+      {/* </GoogleOAuthProvider> */}
     </AxiosInstanceProvider>
   </BrowserRouter>,
 )

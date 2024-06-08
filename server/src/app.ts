@@ -12,7 +12,7 @@ import StatusCode from './enums/status-codes';
 import logger from './utils/logger';
 import NotFoundError from './utils/err/not-found-error';
 import { FRONTEND_URL } from './config/config';
-import session from 'express-session';
+// import session from 'express-session';
 
 const app = express();
 const corsOptions = {
@@ -33,11 +33,11 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // Session middleware
-app.use(session({
-  secret: "SESSION_SECRET",
-  resave: false,
-  saveUninitialized: true,
-}));
+// app.use(session({
+//   secret: "SESSION_SECRET",
+//   resave: false,
+//   saveUninitialized: true,
+// }));
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/expenses", expenseRouter);

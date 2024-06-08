@@ -4,7 +4,7 @@ import { EXPIRY_TIME_ACCESS_TOKEN, EXPIRY_TIME_REFRESH_TOKEN, USER_BACKEND_URL }
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAxiosInstance } from "./AxiosInstanceContext";
-import { useGoogleLogin } from "@react-oauth/google";
+// import { useGoogleLogin } from "@react-oauth/google";
 
 axios.defaults.validateStatus = () => true;
 
@@ -101,27 +101,27 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleGoogleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      try {
-        // Send the token to your backend for verification and user creation
-        const response = await axios.get(`${USER_BACKEND_URL}/auth/google/callback`, {
-          headers: {
-            Authorization: `Bearer ${tokenResponse.access_token}`,
-          },
-          withCredentials: true, // Send cookies with request
-        });
+  // const handleGoogleLogin = useGoogleLogin({
+  //   onSuccess: async (tokenResponse) => {
+  //     try {
+  //       // Send the token to your backend for verification and user creation
+  //       const response = await axios.get(`${USER_BACKEND_URL}/auth/google/callback`, {
+  //         headers: {
+  //           Authorization: `Bearer ${tokenResponse.access_token}`,
+  //         },
+  //         withCredentials: true, // Send cookies with request
+  //       });
 
-        // Handle the response from the backend
-        console.log('User authenticated:', response.data);
-      } catch (error) {
-        console.error('Error during authentication:', error);
-      }
-    },
-    onError: (error) => {
-      console.error('Login Failed:', error);
-    },
-  });
+  //       // Handle the response from the backend
+  //       console.log('User authenticated:', response.data);
+  //     } catch (error) {
+  //       console.error('Error during authentication:', error);
+  //     }
+  //   },
+  //   onError: (error) => {
+  //     console.error('Login Failed:', error);
+  //   },
+  // });
 
   const login = async ({ email, password }: { email: string, password: string }) => {
     try {
@@ -205,7 +205,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <userContext.Provider value={{ user, setUser, login, register, logout, handleGoogleLogin }}>
+    <userContext.Provider value={{ user, setUser, login, register, logout, /*handleGoogleLogin*/ }}>
       {children}
     </userContext.Provider>
   )
