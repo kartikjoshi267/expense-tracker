@@ -7,6 +7,7 @@ import connectToDB from './database/db';
 import userRouter from './routes/user-routes';
 import expenseRouter from './routes/expense-routes';
 import sourceRouter from './routes/source-routes';
+import pdfRouter from './routes/pdf-routes';
 import cors from 'cors';
 import StatusCode from './enums/status-codes';
 import logger from './utils/logger';
@@ -42,6 +43,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/expenses", expenseRouter);
 app.use("/api/v1/sources", sourceRouter);
+app.use("/api/v1/pdf", pdfRouter);
 
 app.use('*', (req: Request, res: Response) => {
   throw new NotFoundError("Route not found");

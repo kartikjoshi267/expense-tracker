@@ -6,6 +6,8 @@ export const SOURCE_BACKEND_URL = BACKEND_URL + "/sources";
 
 export const EXPENSES_BACKEND_URL = BACKEND_URL + "/expenses";
 
+export const PDF_BACKEND_URL = BACKEND_URL + "/pdf";
+
 export const EXPIRY_TIME_ACCESS_TOKEN = 5 * 60 * 1000;
 
 export const EXPIRY_TIME_REFRESH_TOKEN = 31556952000;
