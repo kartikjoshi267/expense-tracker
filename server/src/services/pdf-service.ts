@@ -14,7 +14,12 @@ class PDFService {
     doc.text("Expenses", 10, 20);
 
     // Format the expenses data for the table
-    const tableData = expenses.map((expense: any, index: number) => {
+    const tableData = expenses.sort((a:any, b:any) => {
+      if (new Date(a.date).getTime() === new Date(b.date).getTime()) {
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      }
+      return new Date(a.date).getTime() - new Date(b.date).getTime();
+    }).map((expense: any, index: number) => {
         return [
             (index + 1).toString(),
             expense.title,
